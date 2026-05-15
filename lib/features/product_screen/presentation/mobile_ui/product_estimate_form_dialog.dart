@@ -56,6 +56,10 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
   TextEditingController diamondValueController = TextEditingController();
   TextEditingController discPercentageController = TextEditingController();
   TextEditingController discAmountController = TextEditingController();
+  //Diamond Discount
+  TextEditingController diamondDiscPercentageController = TextEditingController();
+  TextEditingController diamondDiscAmountController = TextEditingController();
+
   TextEditingController taxCodeController = TextEditingController();
   TextEditingController taxAmountController = TextEditingController();
   TextEditingController taxableAmtController = TextEditingController();
@@ -66,6 +70,10 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
 
   final discountAmountFocusNode = FocusNode();
   final discountPercentageFocusNode = FocusNode();
+
+  //Diamond Discount
+  final diamondDiscountAmountFocusNode = FocusNode();
+  final diamondDiscountPercentageFocusNode = FocusNode();
 
   final ScrollController _scrollController = ScrollController();
 
@@ -88,6 +96,11 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
   @override
   void dispose() {
     debugPrint("---DISPOSE---");
+    diamondDiscountAmountFocusNode.dispose();
+    diamondDiscountPercentageFocusNode.dispose();
+    diamondDiscPercentageController.dispose();
+    diamondDiscAmountController.dispose();
+
     productIdController.dispose();
     pieceController.dispose();
     quantityController.dispose();
@@ -456,6 +469,7 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                       ),
                                     ],
                                   ),
+                                  //Discount on Making Value
                                   Row(
                                     children: [
                                       Expanded(
@@ -620,6 +634,282 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                             );
                                           },
                                           labelText: 'Disc Amt',
+                                          textInputType:
+                                              const TextInputType.numberWithOptions(
+                                                decimal: true,
+                                              ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*'),
+                                            ),
+                                          ],
+                                          onChange: (value) {
+                                            setState(() {
+                                              if (value!.isEmpty) {
+                                                discPercentageController.text =
+                                                    '0.00';
+                                                taxableAmtController.text =
+                                                    originalTaxableValue
+                                                        .toStringAsFixed(2);
+                                                // taxAmount = originalTaxAmount;
+                                                taxAmountController.text =
+                                                    AppWidgets.formatIndianNumber(
+                                                      originalTaxAmount,
+                                                    );
+                                                // lineAmount = originalLineAmount;
+                                                lineAmountController.text =
+                                                    AppWidgets.formatIndianNumber(
+                                                      originalLineAmount,
+                                                    );
+                                                return;
+                                              }
+
+                                              double discountAmount =
+                                                  double.tryParse(value) ?? 0.0;
+
+                                              final discountDesc =
+                                                  ""; //state.productListFormModel?.skuDiscount?.desc?.toLowerCase() ?? "";
+                                              double totalValue =
+                                                  (state.skuDetails?.mkValue ??
+                                                      0.0) +
+                                                  (state
+                                                          .skuDetails
+                                                          ?.stoneValue ??
+                                                      0.0) +
+                                                  (state
+                                                          .skuDetails
+                                                          ?.diamondValue ??
+                                                      0.0) +
+                                                  (state.skuDetails?.cvalue ??
+                                                      0.0);
+
+                                              double taxableAmount = 0.0;
+                                              double discountBaseValue = 0.0;
+
+                                              if (discountDesc.contains(
+                                                "line",
+                                              )) {
+                                                // Discount is off from lineAmount
+                                                discountBaseValue =
+                                                    totalValue +
+                                                    (state
+                                                            .skuDetails
+                                                            ?.taxAmount ??
+                                                        0.0); // original line amount
+                                                taxableAmount =
+                                                    totalValue; // tax will be on full components
+                                              } else {
+                                                // Discount is off from making value
+                                                discountBaseValue =
+                                                    state.skuDetails?.mkValue ??
+                                                    0.0;
+                                                taxableAmount =
+                                                    totalValue - discountAmount;
+                                              }
+
+                                              double discountPercentage =
+                                                  discountBaseValue > 0
+                                                  ? (discountAmount * 100) /
+                                                        discountBaseValue
+                                                  : 0.0;
+
+                                              double taxAmount =
+                                                  (taxableAmount *
+                                                      taxPercentage) /
+                                                  100;
+                                              double lineAmount =
+                                                  taxableAmount + taxAmount;
+
+                                              discPercentageController.text =
+                                                  discountPercentage
+                                                      .toStringAsFixed(2);
+                                              taxableAmtController.text =
+                                                  taxableAmount.toStringAsFixed(
+                                                    2,
+                                                  );
+                                              taxAmountController.text =
+                                                  AppWidgets.formatIndianNumber(
+                                                    taxAmount,
+                                                  );
+                                              lineAmountController.text =
+                                                  AppWidgets.formatIndianNumber(
+                                                    lineAmount,
+                                                  );
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      /*IconButton(onPressed: () {
+
+                                      }, icon: Icon(Icons.add_box_sharp,color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,))*/
+                                    ],
+                                  ),
+                                 //Discount on Diamond Value
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: AppWidgets().buildTextFormField(
+                                          size,
+                                          controller: diamondDiscPercentageController,
+                                          hintText: "Diamond Disc %",
+                                          labelText: 'Diamond Disc %',
+                                          focusNode: diamondDiscountPercentageFocusNode,
+                                          onTap: () {
+                                            _scrollToFocusedTextField(
+                                              diamondDiscountPercentageFocusNode,
+                                            );
+                                          },
+                                          textInputType:
+                                              const TextInputType.numberWithOptions(
+                                                decimal: true,
+                                              ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*'),
+                                            ),
+                                          ],
+                                          onChange: (value) {
+                                            setState(() {
+                                              if (value!.isEmpty) {
+                                                discAmountController.text =
+                                                    '0.00';
+                                                taxableAmtController.text =
+                                                    originalTaxableValue
+                                                        .toStringAsFixed(2);
+
+                                                taxAmount = originalTaxAmount;
+                                                taxAmountController.text =
+                                                    AppWidgets.formatIndianNumber(
+                                                      taxAmount,
+                                                    );
+
+                                                lineAmount = originalLineAmount;
+                                                lineAmountController.text =
+                                                    AppWidgets.formatIndianNumber(
+                                                      lineAmount,
+                                                    );
+                                                return;
+                                              }
+
+                                              double discountPercentage =
+                                                  double.tryParse(value) ?? 0.0;
+
+                                              double makingValue =
+                                                  state.skuDetails?.mkValue ??
+                                                  0.0;
+                                              double stoneValue =
+                                                  state
+                                                      .skuDetails
+                                                      ?.stoneValue ??
+                                                  0.0;
+                                              double diamondValue =
+                                                  state
+                                                      .skuDetails
+                                                      ?.diamondValue ??
+                                                  0.0;
+                                              double cValue =
+                                                  state.skuDetails?.cvalue ??
+                                                  0.0;
+                                              double taxValue =
+                                                  state.skuDetails?.taxAmount ??
+                                                  0.0;
+
+                                              double totalValue =
+                                                  makingValue +
+                                                  stoneValue +
+                                                  diamondValue +
+                                                  cValue;
+                                              double fullLineAmount =
+                                                  totalValue + taxValue;
+
+                                              String discountDesc =
+                                                  state
+                                                      .productListFormModel
+                                                      ?.skuDiscount
+                                                      ?.desc
+                                                      ?.toLowerCase() ??
+                                                  "";
+
+                                              double discountAmount = 0.0;
+                                              double taxableAmount = 0.0;
+                                              double taxAmountLocal = 0.0;
+                                              double updatedLineAmount = 0.0;
+
+                                              if (discountDesc.contains(
+                                                "line",
+                                              )) {
+                                                // Apply discount on total line amount
+                                                discountAmount =
+                                                    (fullLineAmount *
+                                                        discountPercentage) /
+                                                    100;
+                                                discountAmount = discountAmount;
+                                                taxableAmount =
+                                                    totalValue; // full taxable base stays same
+                                                taxAmountLocal =
+                                                    (taxableAmount *
+                                                        taxPercentage) /
+                                                    100;
+                                                updatedLineAmount =
+                                                    taxableAmount +
+                                                    taxAmountLocal;
+                                              } else {
+                                                // Apply discount on making value (for both "making" and others)
+                                                discountAmount =
+                                                    (makingValue *
+                                                        discountPercentage) /
+                                                    100;
+                                                double newMakingValue =
+                                                    makingValue -
+                                                    discountAmount;
+
+                                                double newTotalValue =
+                                                    newMakingValue +
+                                                    stoneValue +
+                                                    diamondValue +
+                                                    cValue;
+                                                taxableAmount = newTotalValue;
+                                                taxAmountLocal =
+                                                    (taxableAmount *
+                                                        taxPercentage) /
+                                                    100;
+                                                updatedLineAmount =
+                                                    taxableAmount +
+                                                    taxAmountLocal;
+                                              }
+
+                                              discAmountController.text =
+                                                  AppWidgets.formatIndianNumber(
+                                                    discountAmount,
+                                                  );
+                                              taxableAmtController.text =
+                                                  taxableAmount.toStringAsFixed(
+                                                    2,
+                                                  );
+                                              taxAmountController.text =
+                                                  AppWidgets.formatIndianNumber(
+                                                    taxAmountLocal,
+                                                  );
+                                              lineAmountController.text =
+                                                  AppWidgets.formatIndianNumber(
+                                                    updatedLineAmount,
+                                                  );
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: AppWidgets().buildTextFormField(
+                                          size,
+                                          controller: diamondDiscAmountController,
+                                          hintText: "Diamond Disc Amt",
+                                          focusNode: diamondDiscountAmountFocusNode,
+                                          onTap: () {
+                                            _scrollToFocusedTextField(
+                                              diamondDiscountAmountFocusNode,
+                                            );
+                                          },
+                                          labelText: 'Diamond Disc Amt',
                                           textInputType:
                                               const TextInputType.numberWithOptions(
                                                 decimal: true,
