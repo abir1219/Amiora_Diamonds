@@ -71,7 +71,7 @@ class NetworkApiService implements BaseApiServices {
           "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
       print("Post_api==>$url");
       //print("Body==>$data");
-      debugPrint("Body==>$data", wrapWidth: 1024);
+      print("Body==>$data");
     }
 
     dynamic responseJson;
@@ -87,7 +87,7 @@ class NetworkApiService implements BaseApiServices {
       );
       responseJson = returnResponse(response);
       if (kDebugMode) {
-        print("Status_code =>> ${response.statusCode}");
+        print("Status_code32 =>> ${response.statusCode}");
       }
     } on SocketException {
       throw NoInternetException('No Internet Connection');

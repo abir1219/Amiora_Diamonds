@@ -432,6 +432,7 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       "pvLeCode": lecode,
       "pvSKUNumber": event.skuCode,
     };
+    print("BODY==>$body");
     debugPrint("event.fromView--->${event.fromView}");
     debugPrint(
       "DiscountAmount---->${state.skuDetails?.discountAmount ?? "0.87878"}",

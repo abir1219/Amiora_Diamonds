@@ -543,22 +543,35 @@ class SkuDiscount {
   double? rate;
   String? desc;
   String? rateType;
+  double? diaRate;
+  String? diaCalTypeDescription;
+  String? diaRateType;
 
   SkuDiscount(
       {this.rate,
         this.desc,
-        this.rateType,});
+        this.rateType,
+        this.diaRate,
+        this.diaCalTypeDescription,
+        this.diaRateType
+      });
 
 
   SkuDiscount copyWith({
     double? rate,
     String? desc,
     String? rateType,
+    double? diaRate,
+    String? diaCalTypeDescription,
+    String? diaRateType
   }) {
     return SkuDiscount(
       rate: rate ?? this.rate,
       desc: desc ?? this.desc,
       rateType: rateType ?? this.rateType,
+      diaRate: diaRate ?? this.diaRate,
+      diaCalTypeDescription: diaCalTypeDescription ?? this.diaCalTypeDescription,
+      diaRateType: diaRateType ?? this.diaRateType,
     );
   }
 
@@ -566,6 +579,9 @@ class SkuDiscount {
     rate = json['Rate'];
     desc = json['CalTypeDescription'];
     rateType = json['TaxCode'];
+    diaRate = json['diaRate'];
+    diaCalTypeDescription = json['diaCalTypeDescription'];
+    diaRateType = json['diaRateType'];
   }
 
   Map<String, dynamic> toJson() {
@@ -573,6 +589,9 @@ class SkuDiscount {
     data['Rate'] = rate;
     data['CalTypeDescription'] = desc;
     data['TaxCode'] = rateType;
+    data['diaRate'] = diaRate;
+    data['diaCalTypeDescription'] = diaCalTypeDescription;
+    data['diaRateType'] = diaRateType;
     return data;
   }
 }

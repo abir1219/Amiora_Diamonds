@@ -9,7 +9,7 @@ class ApiEndPoints {
   // static final TEST_SOCKE_URL = "ws://192.168.1.180:8091/ws/online-users/?device_id"; // Saibal Local
   static final TEST_SOCKE_URL = "ws://192.168.1.124:8000/ws/online-users/?device_id"; // Barno Local
 
-  static final SOCKET_BASE_URL = CLIENT_SOCKE_URL;
+  static final SOCKET_BASE_URL = TEST_SOCKE_URL;
 
   static final TEST_URL =
       // "http://crownestapi.cloud24k.com/api/estimations/";
