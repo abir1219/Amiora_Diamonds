@@ -406,6 +406,15 @@ class _ProductListState extends State<ProductList> {
                   children: [
                     GestureDetector(
                       onTap: () {
+                          // debugPrint("diamondDiscountAmount-->${state.diamondDiscountAmountList![index]}");
+                        // debugPrint("diamondDiscountPercentage-->${state.diamondDiscountPercentageList![index]}");
+                        debugPrint(
+                            "diamondDiscountPercentageList length => "
+                                "${state.diamondDiscountPercentageList?.length}"
+                        );
+
+                        debugPrint("index => $index");
+
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -414,8 +423,9 @@ class _ProductListState extends State<ProductList> {
                               sKUNumber: product.sKUNumber!,
                               fromView: true,
                               discountAmount: state.discountAmountList![index],
-                              discountPercentage:
-                                  state.discountPercentageList![index],
+                              diamondDiscountAmount: state.diamondDiscountAmountList![index],
+                              discountPercentage: state.discountPercentageList![index],
+                              diamondDiscountPercentage: state.diamondDiscountPercentageList![index],
                             );
                           },
                         );

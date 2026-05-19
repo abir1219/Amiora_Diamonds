@@ -66,7 +66,9 @@ class EstimationState extends Equatable {
   final List<double>? lineAmountList;
   final List<double>? taxAmountList;
   final List<double>? discountAmountList;
+  final List<double>? diamondDiscountAmountList;
   final List<double>? discountPercentageList;
+  final List<double>? diamondDiscountPercentageList;
   final List<double>? totalQtyList;
 
   //Tax
@@ -151,7 +153,9 @@ class EstimationState extends Equatable {
     this.lineAmountList = const [],
     this.taxAmountList = const [],
     this.discountAmountList = const [],
+    this.diamondDiscountAmountList = const [],
     this.discountPercentageList = const [],
+    this.diamondDiscountPercentageList = const [],
     this.totalQtyList = const [],
 
     //Tax
@@ -237,7 +241,9 @@ class EstimationState extends Equatable {
     List<double>? lineAmountList,
     List<double>? taxAmountList,
     List<double>? discountAmountList,
+    List<double>? diamondDiscountAmountList,
     List<double>? discountPercentageList,
+    List<double>? diamondDiscountPercentageList,
     List<double>? totalQtyList,
 
     //Tax
@@ -323,7 +329,9 @@ class EstimationState extends Equatable {
       lineAmountList: lineAmountList ?? this.lineAmountList,
       taxAmountList: taxAmountList ?? this.taxAmountList,
       discountAmountList: discountAmountList ?? this.discountAmountList,
+      diamondDiscountAmountList: diamondDiscountAmountList ?? this.diamondDiscountAmountList,
       discountPercentageList: discountPercentageList ?? this.discountPercentageList,
+      diamondDiscountPercentageList: diamondDiscountPercentageList ?? this.diamondDiscountPercentageList,
       totalQtyList: totalQtyList ?? this.totalQtyList,
 
       //Tax
@@ -412,7 +420,9 @@ class EstimationState extends Equatable {
         lineAmountList,
         taxAmountList,
         discountAmountList,
+        diamondDiscountAmountList,
         discountPercentageList,
+        diamondDiscountPercentageList,
         totalQtyList,
 
         //Tax

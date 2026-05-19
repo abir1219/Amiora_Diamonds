@@ -20,6 +20,7 @@ class EstimationRequest {
 
 class EstimationEntryBody {
   final String? estnumber;
+
   // final String? employee;
   final String? currency;
   final double? exchangerate;
@@ -146,8 +147,14 @@ class EstimateProductDetailsBody {
   final int? disCalType;
   final String? disamountAftertax;
   final String? disaftertax;
+  final String? diamonddiscamount;
+  final String? diamonddiscrate;
+  final String? diamonddisccaltype;
 
   EstimateProductDetailsBody({
+    this.diamonddiscamount,
+    this.diamonddiscrate,
+    this.diamonddisccaltype,
     this.prodCode,
     this.purity,
     this.size,
@@ -230,6 +237,9 @@ class EstimateProductDetailsBody {
       'dis_cal_type': disCalType,
       'disamount_aftertax': disamountAftertax,
       'disaftertax': disaftertax,
+      'diamonddiscamount': diamonddiscamount,
+      'diamonddiscrate': diamonddiscrate,
+      'diamonddisccaltype': diamonddisccaltype,
     };
   }
 }
@@ -251,6 +261,7 @@ class EstimationSubDetailsBody {
   final double? rate;
   final double? cvalue;
   final String? leCode;
+
   // final String? pricePoint;
 
   EstimationSubDetailsBody({

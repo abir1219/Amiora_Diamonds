@@ -9,7 +9,7 @@ class ApiEndPoints {
   // static final TEST_SOCKE_URL = "ws://192.168.1.180:8091/ws/online-users/?device_id"; // Saibal Local
   static final TEST_SOCKE_URL = "ws://192.168.1.124:8000/ws/online-users/?device_id"; // Barno Local
 
-  static final SOCKET_BASE_URL = TEST_SOCKE_URL;
+  static final SOCKET_BASE_URL = CLIENT_SOCKE_URL;
 
   static final TEST_URL =
       // "http://crownestapi.cloud24k.com/api/estimations/";
@@ -19,7 +19,7 @@ class ApiEndPoints {
   // "https://86b4-136-232-65-198.ngrok-free.app/api/estimations/"; // Azam Local
   //  "https://0a598a0f83f9.ngrok-free.app/api/estimations/"; // Saibal Local
   static final CLIENT_URL = "http://192.168.0.41:8000/api/estimations/";
-  static final BASE_URL = TEST_URL;
+  static final BASE_URL = CLIENT_URL;
   static _ApiEndPoints authEndpoints = _ApiEndPoints();
 }
 //192.168.0.41:8000

@@ -197,7 +197,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
         // salesmanName: state.employeeList![event.selectedIndex!].eName,
         salesmanName: state.filteredEmployeeList![event.selectedIndex!].eName,
         // salesPersonId: state.employeeList![event.selectedIndex!].emplId.toString(),
-        salesPersonId: state.filteredEmployeeList![event.selectedIndex!].emplId.toString(),
+        salesPersonId: state.filteredEmployeeList![event.selectedIndex!].emplId
+            .toString(),
       ),
     );
     //emit(state.copyWith(stateName: ))
@@ -221,9 +222,9 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
   List<Map<String, dynamic>> estimatePaymentList = [];
 
   FutureOr<void> _savePaymentDetails(
-      SavePaymentDetails event,
-      Emitter<EstimationState> emit,
-      ) {
+    SavePaymentDetails event,
+    Emitter<EstimationState> emit,
+  ) {
     final updatedPayments = List<Map<String, dynamic>>.from(state.payments);
 
     event.paymentsData.forEach((title, amount) {
@@ -256,7 +257,6 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
 
     emit(state.copyWith(payments: updatedPayments));
   }
-
 
   FutureOr<void> _selectCustomer(
     SelectCustomerEvent event,
@@ -418,7 +418,7 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     FetchSkuDetailsEvent event,
     Emitter<EstimationState> emit,
   ) async {
-    emit(state.copyWith(apiDialogStatus: ApiStatus.loading,skuDetails: null));
+    emit(state.copyWith(apiDialogStatus: ApiStatus.loading, skuDetails: null));
 
     String lecode = SharedPreferencesHelper.getString(
       AppConstants.LEGAL_ENTITY,
@@ -438,6 +438,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       "DiscountAmount---->${state.skuDetails?.discountAmount ?? "0.87878"}",
     );
     // debugPrint("state.discountAmount--->${state.skuDetails!.discountAmount}");
+
+    debugPrint("FROMVIEW==>${event.fromView}");
     if (event.fromView != false) {
       var value = selectedProductList.where(
         (product) => product.skuDetails?.sKUNumber == event.skuCode,
@@ -933,7 +935,9 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
   List<double> lineAmount = [];
   List<double> taxAmount = [];
   List<double> discountAmount = [];
+  List<double> diamondDiscountAmountList = [];
   List<double> discountPercentageList = [];
+  List<double> diamondDiscountPercentageList = [];
   List<double> totalQty = [];
 
   /*FutureOr<void> _skuSaveForList(SkuSaveForListEvent event,
@@ -991,16 +995,16 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
 
     // Check if the product already exists in the selectedProductList
 
-    final existingProductIndex = selectedProductList.indexWhere(
-      (product) {
-        debugPrint("existingProductIndex001-->${product.skuDetails!.sKUNumber ==
-            state.productListFormModel!.skuDetails!.sKUNumber}");
-        return product.skuDetails!.sKUNumber ==
-            state.productListFormModel!.skuDetails!.sKUNumber;
-      }
-    );
+    final existingProductIndex = selectedProductList.indexWhere((product) {
+      debugPrint(
+        "existingProductIndex001-->${product.skuDetails!.sKUNumber == state.productListFormModel!.skuDetails!.sKUNumber}",
+      );
+      return product.skuDetails!.sKUNumber ==
+          state.productListFormModel!.skuDetails!.sKUNumber;
+    });
 
     debugPrint("DISCOUNT_AMOUNT-->${event.discountAmount}");
+    debugPrint("DIAMOND_DISCOUNT_AMOUNT-->${event.diamondDiscountAmount}");
     debugPrint("TOTAL_AMOUNT-->${event.lineAmount}");
     debugPrint("TAXABLE_AMOUNT-->${(event.lineAmount! - event.taxAmount!)}");
     debugPrint("TAX_AMOUNT-->${event.taxAmount}");
@@ -1013,6 +1017,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
           totalAmount: event.lineAmount!,
           taxableAmount: (event.lineAmount! - event.taxAmount!),
           discountAmount: event.discountAmount!,
+          diamondDiscountAmount: event.diamondDiscountAmount!,
+          diamondDiscountPercentage: event.diamondDiscountPercentage!,
           discountPercentage: event.discountPercentage!,
           taxAmount: event.taxAmount!,
         ),
@@ -1024,7 +1030,11 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       lineAmount[existingProductIndex] = event.lineAmount!;
       totalQty[existingProductIndex] = event.qty!;
       discountAmount[existingProductIndex] = event.discountAmount!;
+      diamondDiscountAmountList[existingProductIndex] =
+          event.diamondDiscountAmount!;
       discountPercentageList[existingProductIndex] = event.discountPercentage!;
+      diamondDiscountPercentageList[existingProductIndex] =
+          event.diamondDiscountPercentage!;
 
       // SharedPreferencesHelper.saveString(AppConstants.DiscountAmount, state.skuDetails!.discountAmount.toString());
 
@@ -1035,6 +1045,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
           rotationAngle: rotationAngle,
           taxAmountList: taxAmount,
           discountAmountList: discountAmount,
+          diamondDiscountAmountList: diamondDiscountAmountList,
+          diamondDiscountPercentageList: diamondDiscountPercentageList,
           discountPercentageList: discountPercentageList,
           totalQtyList: totalQty,
           lineAmountList: lineAmount,
@@ -1052,10 +1064,18 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       discountAmount.add(event.discountAmount!);
       discountPercentageList.add(event.discountPercentage!);
 
+      diamondDiscountAmountList.add(event.diamondDiscountAmount!);
+      diamondDiscountPercentageList.add(event.diamondDiscountPercentage!);
+
       state.skuDetails!.totalAmount = event.lineAmount!;
       state.skuDetails!.taxableAmount = (event.lineAmount! - event.taxAmount!);
       state.skuDetails!.discountAmount = event.discountAmount!;
       state.skuDetails!.discountPercentage = event.discountPercentage!;
+
+      state.skuDetails!.diamondDiscountAmount = event.diamondDiscountAmount!;
+      state.skuDetails!.diamondDiscountPercentage =
+          event.diamondDiscountPercentage!;
+
       state.skuDetails!.taxAmount = event.taxAmount!;
 
       debugPrint("DiscountAmount---->${state.skuDetails!.discountAmount}");
@@ -1069,6 +1089,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
           taxAmountList: taxAmount,
           discountAmountList: discountAmount,
           discountPercentageList: discountPercentageList,
+          diamondDiscountAmountList: diamondDiscountAmountList,
+          diamondDiscountPercentageList: diamondDiscountPercentageList,
           totalQtyList: totalQty,
           lineAmountList: lineAmount,
         ),
@@ -1309,7 +1331,9 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       // employee: "",//state.employee!.emplId!,//state.estimationNumber!,
       currency: "INR",
       exchangerate: 1,
-      mobileno: int.parse(SharedPreferencesHelper.getString(AppConstants.MOBILE_NO)!),
+      mobileno: int.parse(
+        SharedPreferencesHelper.getString(AppConstants.MOBILE_NO)!,
+      ),
       warehouse: SharedPreferencesHelper.getString(AppConstants.WAREHOUSE)!,
       taxper: 0.00,
       taxamount: double.parse(totalTaxAmount.toStringAsFixed(2)),
@@ -1320,7 +1344,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       details: "",
       inuse: 0.00,
       placeOfSupply: state.stateCode ?? "",
-      userCode: 'NIM'//SharedPreferencesHelper.getString(AppConstants.USER_NAME)!,
+      userCode:
+          'NIM', //SharedPreferencesHelper.getString(AppConstants.USER_NAME)!,
     );
 
     // Initialize lists outside the loop
@@ -1378,7 +1403,12 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
         disamount: double.parse(
           product.skuDetails!.discountAmount!.toStringAsFixed(2),
         ),
+        diamonddiscamount: product.skuDetails!.diamondDiscountAmount!
+            .toStringAsFixed(2),
+        diamonddiscrate: product.skuDetails!.diamondDiscountPercentage!
+            .toString(),
         lineamount: product.skuDetails!.totalAmount!.toStringAsFixed(2),
+          diamonddisccaltype: "1",
         miscamount: double.parse(miscTotalAmount.toStringAsFixed(2)),
         leCode: SharedPreferencesHelper.getString(AppConstants.LEGAL_ENTITY)!,
         // purpose: "Sale",
@@ -1393,6 +1423,7 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
         // roundedtaxablevalue: 5000.0,
         // disCalType: 1,
         disamountAftertax: "0.00",
+
         // disaftertax: "90.0",
       );
       // EstimationSubDetailsBody subDetails = EstimationSubDetailsBody();

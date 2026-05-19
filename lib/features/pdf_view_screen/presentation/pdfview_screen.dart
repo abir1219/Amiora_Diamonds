@@ -162,20 +162,23 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
               child: _buildProductContainer(size, index),
             ),
           ),
+          
+          pw.SizedBox(height: 10),
+          _buildFooter(size),
         ],
         // ❌ no footer here → avoids blank space under products
       ),
     );
 
     // Final Page: Footer only (payments + totals + employee)
-    pdf.addPage(
+    /*pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat(size.width, size.height, marginAll: 5),
         build: (context) {
           return _buildFooter(size);
         },
       ),
-    );
+    );*/
 
     return pdf.save();
   }
@@ -807,7 +810,7 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
               child: pw.Text(
                 details.isNotEmpty
                     ? totalAmount
-                          .toString() //details[0].estimateProductDetails?.lineamount ?? ''
+                          .toStringAsFixed(2) //details[0].estimateProductDetails?.lineamount ?? ''
                     : "0.00",
                 textAlign: pw.TextAlign.right,
                 style: pw.TextStyle(

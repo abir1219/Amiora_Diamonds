@@ -238,15 +238,17 @@ final class SkuSaveForListEvent extends EstimationEvent {
   final double? lineAmount;
   final double? taxAmount;
   final double? discountAmount;
+  final double? diamondDiscountAmount;
   final double? discountPercentage;
+  final double? diamondDiscountPercentage;
   final double? qty;
 
-  const SkuSaveForListEvent(this.lineAmount, this.taxAmount,
-      this.discountAmount, this.qty, this.discountPercentage);
+  const SkuSaveForListEvent({this.lineAmount, this.taxAmount,
+    this.discountAmount, this.qty, this.discountPercentage, this.diamondDiscountAmount, this.diamondDiscountPercentage});
 
   @override
   List<Object?> get props =>
-      [lineAmount, taxAmount, discountAmount, qty,discountPercentage];
+      [lineAmount, taxAmount, discountAmount,diamondDiscountAmount, qty,discountPercentage,diamondDiscountPercentage];
 }
 
 final class SelectProductEvent extends EstimationEvent {

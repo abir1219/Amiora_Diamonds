@@ -104,71 +104,6 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                 AppWidgets().buildTopEstimationContainer(size),
                 Gap(size.height * .01),
                 AppWidgets().buildStepperContainer(size, pageNo: 1),
-                /*Gap(size.height * .01),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        return SalesmanListDialog(employeeList: null);
-                      },
-                    );
-                  },
-                  child: Container(
-                    height: size.height * .05,
-                    //MediaQuery.sizeOf(context),
-                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,
-                    ),
-                    width: size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(8.0),
-                        bottomLeft: Radius.circular(8.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(145),
-                          blurRadius: 1.2,
-                          blurStyle: BlurStyle.outer,
-                          offset: Offset(0.5, 0.5),
-                          spreadRadius: 1.5,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        BlocConsumer<EstimationBloc, EstimationState>(
-                          listener: (context, state) {},
-                          builder: (context, state) {
-                            return Text(
-                              (state.salesmanName == null ||
-                                  state.salesmanName!.isEmpty)
-                                  ? "Employee Name"
-                                  : state.salesmanName!,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          height: 34,
-                          width: 34,
-                          child: Center(
-                            child: SvgPicture.asset("assets/images/search.svg"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),*/
                 Gap(size.height * .01),
                 const Expanded(child: ProductList()),
                 Container(
@@ -176,16 +111,6 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      /*Expanded(
-                        child: AppWidgets.customMobileButton(
-                          size: size,
-                          btnName: 'Cancel',
-                          color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                          func: () => context.go(
-                            AppPages.ESTIMATION,
-                          ),
-                        ),
-                      ),*/
                       Expanded(
                         child: AppWidgets.customMobileButton(
                           size: size,

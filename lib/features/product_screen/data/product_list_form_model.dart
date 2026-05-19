@@ -161,6 +161,8 @@ class SkuDetails {
   double? taxAmount;
   double? discountAmount;
   double? discountPercentage;
+  double? diamondDiscountAmount;
+  double? diamondDiscountPercentage;
   double? totalAmount;
   double? totalDiamondQty;
   double? totalStoneQty;
@@ -202,7 +204,9 @@ class SkuDetails {
     this.totalAmount,
     this.taxAmount,
     this.discountAmount,
+    this.diamondDiscountAmount,
     this.discountPercentage,
+    this.diamondDiscountPercentage,
     this.totalDiamondQty,
     this.totalStoneQty,
     this.imageUrl,
@@ -234,7 +238,9 @@ class SkuDetails {
     double? taxableAmount,
     double? taxAmount,
     double? discountAmount,
+    double? diamondDiscountAmount,
     double? discountPercentage,
+    double? diamondDiscountPercentage,
     double? totalAmount,
     double? totalDiamondQty,
     double? totalStoneQty,
@@ -265,7 +271,9 @@ class SkuDetails {
       taxableAmount: taxableAmount ?? this.taxableAmount,
       taxAmount: taxAmount ?? this.taxAmount,
       discountAmount: discountAmount ?? this.discountAmount,
+      diamondDiscountAmount: diamondDiscountAmount ?? this.diamondDiscountAmount,
       discountPercentage: discountPercentage ?? this.discountPercentage,
+      diamondDiscountPercentage: diamondDiscountPercentage ?? this.diamondDiscountPercentage,
       totalAmount: totalAmount ?? this.totalAmount,
       totalDiamondQty: totalDiamondQty ?? this.totalDiamondQty,
       totalStoneQty: totalDiamondQty ?? this.totalDiamondQty,
@@ -309,7 +317,9 @@ class SkuDetails {
     subDStyle = json['SubD_Style'];
     totalAmount = 0.0;
     discountAmount = 0.0;
+    diamondDiscountAmount = 0.0;
     discountPercentage = 0.0;
+    diamondDiscountPercentage = 0.0;
     taxableAmount = 0.0;
     taxAmount = 0.0;
   }
