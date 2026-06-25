@@ -2,7 +2,7 @@ class ApiEndPoints {
   // static const LOGIN_BASE_URL = "http://cloud24k.com/api/";
 
   static final CLIENT_SOCKE_URL =
-      "ws://192.168.0.41:8000/ws/online-users/?device_id";
+      "ws://20.198.2.254:8085/ws/online-users/?device_id";
 
   // static final TEST_SOCKE_URL = "ws://192.168.1.189:8001/ws/online-users/?device_id"; //Azam Local
   // static final TEST_SOCKE_URL = "ws://0a598a0f83f9.ngrok-free.app/ws/online-users/?device_id"; //Saibal Local
@@ -18,7 +18,7 @@ class ApiEndPoints {
   "http://192.168.1.124:8000/api/estimations/"; // Barno Local
   // "https://86b4-136-232-65-198.ngrok-free.app/api/estimations/"; // Azam Local
   //  "https://0a598a0f83f9.ngrok-free.app/api/estimations/"; // Saibal Local
-  static final CLIENT_URL = "http://192.168.0.41:8000/api/estimations/";
+  static final CLIENT_URL = "http://20.198.2.254:8085/api/estimations/";
   static final BASE_URL = CLIENT_URL;
   static _ApiEndPoints authEndpoints = _ApiEndPoints();
 }

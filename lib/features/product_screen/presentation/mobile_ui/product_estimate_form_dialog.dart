@@ -1774,6 +1774,8 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
     required String discountAmount,
     required String diamondDiscountAmount,
   }) {
+
+    print("SKUDETAILS===:$skuDetails");
     double total =
         ((skuDetails.mkValue ?? 0.0) +
         (skuDetails.stoneValue ?? 0.0) +
@@ -1859,13 +1861,18 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
       final sku = state.skuDetails;
 
       final double diamondValue = sku?.diamondValue ?? 0.0;
-      final double makingValue = sku?.mkValue ?? 0.0;
+      // final double makingValue = sku?.mkValue ?? 0.0;
+      final double makingValue = (sku?.mkValue - double.parse(discAmountController.text.replaceAll(',', '')));
       final double stoneValue = sku?.stoneValue ?? 0.0;
       final double cValue = sku?.cvalue ?? 0.0;
+
+      print("Making Value--->$makingValue");
 
       final double discountPercentage = double.tryParse(value) ?? 0.0;
 
       final double discountAmount = (diamondValue * discountPercentage) / 100;
+
+
 
       final double taxableAmount =
           makingValue + stoneValue + (diamondValue - discountAmount) + cValue;
@@ -1900,7 +1907,8 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
 
       final sku = state.skuDetails;
 
-      final double makingValue = sku?.mkValue ?? 0.0;
+      // final double makingValue = sku?.mkValue ?? 0.0;
+      final double makingValue = (sku?.mkValue - double.parse(discAmountController.text.replaceAll(',', '')));
       final double stoneValue = sku?.stoneValue ?? 0.0;
       final double diamondValue = sku?.diamondValue ?? 0.0;
       final double cValue = sku?.cvalue ?? 0.0;
