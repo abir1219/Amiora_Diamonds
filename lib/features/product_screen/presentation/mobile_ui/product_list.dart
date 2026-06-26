@@ -356,7 +356,16 @@ class _ProductListState extends State<ProductList> {
     EstimationState state,
   ) {
     final product = state.selectedProductList![index].skuDetails!;
+    final diamondDiscount = state.diamondDiscountAmountList![index];
+    final makingDiscount = state.discountAmountList![index];
+    final totalDiscount = state.discountAmountList![index] + state.diamondDiscountAmountList![index];
 
+    final newMakingValue = product.mkValue! - makingDiscount;
+    final newDiamondValue = product.diamondValue! - diamondDiscount;
+    // final newTotalAmount = product.totalAmount! - totalDiscount;
+
+    debugPrint("product-->$product and diamondDiscount-->$diamondDiscount and makingDiscount-->$makingDiscount and totalDiscount-->$totalDiscount");
+    debugPrint("newMakingValue-->$newMakingValue and newDiamondValue-->$newDiamondValue and totalAmount-->${product.totalAmount} ");
     debugPrint("Index-->$index and Product-->${product}");
 
     return Container(
@@ -393,7 +402,7 @@ class _ProductListState extends State<ProductList> {
               children: [
                 Expanded(
                   child: Text(
-                    "${product.sKUNumber} | ${product.prodName} ( ₹${AppWidgets.formatIndianNumber(product.totalAmount!)} )",
+                    "${product.sKUNumber} | ${product.prodName} ( ₹${AppWidgets.formatIndianNumber(product.totalAmount ??0)} )",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -481,7 +490,7 @@ class _ProductListState extends State<ProductList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Mk. Val - ₹${AppWidgets.formatIndianNumber(product.mkValue ?? 0.00)}",
+                      "Mk. Val - ₹${AppWidgets.formatIndianNumber(newMakingValue)}",
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.LOGO_BACKGROUND_RED_COLOR,
@@ -489,7 +498,7 @@ class _ProductListState extends State<ProductList> {
                       ),
                     ),
                     Text(
-                      "Stone Val - ₹${AppWidgets.formatIndianNumber(product.stoneValue ?? 0.00)}",
+                      "Stone Val - ₹${AppWidgets.formatIndianNumber(product.stoneValue?? 0.00)}",
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.LOGO_BACKGROUND_RED_COLOR,
@@ -504,7 +513,7 @@ class _ProductListState extends State<ProductList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Dia. Val - ₹${AppWidgets.formatIndianNumber(product.diamondValue ?? 0.00)}",
+                      "Dia. Val - ₹${AppWidgets.formatIndianNumber(newDiamondValue)}",
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.LOGO_BACKGROUND_RED_COLOR,
@@ -528,171 +537,4 @@ class _ProductListState extends State<ProductList> {
       ),
     );
   }
-
-  /*Widget _buildProductContainer(
-      int index, Size size, void Function() func, EstimationState state) {
-    return GestureDetector(
-      //onTap: () => func(),
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: size.width * 0.01, vertical: size.height * 0.02),
-        //margin: EdgeInsets.symmetric(vertical: size.height * .005),
-        // padding: const EdgeInsets.symmetric(horizontal: 6), //,vertical: 2
-        padding: const EdgeInsets.only(bottom: 1),
-        //,vertical: 2
-        height: size.height * 0.085,
-        decoration: BoxDecoration(
-          color: index % 2 == 0
-              ? AppColors.APP_BACKGROUND_COLOR//AppColors.CONTAINER_BACKGROUND_COLOR_01
-              : AppColors.APP_WHITE_COLOR,//AppColors.CONTAINER_BACKGROUND_COLOR_02,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(40),
-              spreadRadius: 1.3,
-              offset: Offset(.5, .5),
-              blurRadius: 1.0,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(6.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // height: size.height * 0.02,
-                    margin: EdgeInsets.symmetric(
-                        vertical: size.height * .005,
-                        //horizontal: size.width * .01
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,//.006,
-                      vertical: size.height *  0.01,//.002,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.LOGO_BACKGROUND_RED_COLOR,
-                      // index % 2 == 0
-                      //     ? AppColors.LOGO_BACKGROUND_RED_COLOR//STEPPER_DONE_COLOR
-                      //     : AppColors.APP_WHITE_COLOR,//CONTAINER_BACKGROUND_COLOR_03,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: Center(
-                      child: Text(
-                        state.selectedProductList![index].skuDetails!
-                            .sKUNumber!,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: size.height * .005,
-                      horizontal: size.width * .01,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * .002,
-                      vertical: size.height * .002,
-                    ),
-                    child: Text(
-                      // "${state.selectedProductList![index].skuDetails!.prodName}, ${state.selectedProductList![index].skuDetails!.purity != null ? state.selectedProductList![index].skuDetails!.purity! : 0}, ${state.selectedProductList![index].skuDetails!.pcs}Pc.",
-                      // "${state.selectedProductList![index].skuDetails!.prodName}, ₹${state.selectedProductList![index].skuDetails!.totalAmount!.toStringAsFixed(2)}",
-                      "${state.selectedProductList![index].skuDetails!.prodName}, ₹${AppWidgets.formatIndianNumber(state.selectedProductList![index].skuDetails!.totalAmount!)}",
-                      style: const TextStyle(
-                        color: AppColors.LOGO_BACKGROUND_RED_COLOR,//STEPPER_DONE_COLOR,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      debugPrint("DiscountAmount===>${state.discountAmountList![index]}");
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return ProductEstimateFormDialog(
-                              sKUNumber: state.selectedProductList![index]
-                                  .skuDetails!.sKUNumber!,
-                              fromView: true,
-                              discountAmount: state.discountAmountList![index],
-                              discountPercentage:
-                                  state.discountPercentageList![index]);
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      margin: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.02,
-                      ),
-                      child: Transform.rotate(
-                        angle: state.rotationAngle![index] *
-                            3.141592653589793 /
-                            180,
-                        child: SvgPicture.asset(
-                          "assets/images/eye.svg",
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.LOGO_BACKGROUND_RED_COLOR,
-                              BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.04,
-                    ),
-                    child: Transform.rotate(
-                      angle:
-                          state.rotationAngle![index] * 3.141592653589793 / 180,
-                      child: SvgPicture.asset(
-                        "assets/images/arrow-down-circle.svg",
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context
-                          .read<EstimationBloc>()
-                          .add(DeleteFromSelectedProduct(index));
-                    },
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent),
-                      child: const Icon(
-                        Icons.delete_outline,
-                        color: AppColors.LOGO_BACKGROUND_RED_COLOR,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
 }

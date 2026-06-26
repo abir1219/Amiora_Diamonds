@@ -25,7 +25,7 @@ class _EstimationInfoDialogState extends State<EstimationInfoDialog> {
       ),
       insetPadding: EdgeInsets.symmetric(
           horizontal: size.width * 0.08,
-          vertical: size.height * 0.4//0.36
+          vertical: size.height * 0.36
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       backgroundColor: Colors.white,
@@ -51,6 +51,11 @@ class _EstimationInfoDialogState extends State<EstimationInfoDialog> {
                       double totalDiscountAmount = 0.0;
                       for (int i = 0; i < state.discountAmountList!.length; i++) {
                         totalDiscountAmount += state.discountAmountList![i];
+                      }
+
+                      double totalDiamondDiscountAmount = 0.0;
+                      for (int i = 0; i < state.diamondDiscountAmountList!.length; i++) {
+                        totalDiamondDiscountAmount += state.diamondDiscountAmountList![i];
                       }
 
                       double totalQty = 0.0;
@@ -117,7 +122,7 @@ class _EstimationInfoDialogState extends State<EstimationInfoDialog> {
                                   ),
                                   Text(
                                     // "₹ ${totalDiscountAmount.toStringAsFixed(2)}",
-                                    "₹ ${AppWidgets.formatIndianNumber(totalDiscountAmount)}",
+                                    "₹ ${AppWidgets.formatIndianNumber( totalDiscountAmount + totalDiamondDiscountAmount )}",
                                     style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,

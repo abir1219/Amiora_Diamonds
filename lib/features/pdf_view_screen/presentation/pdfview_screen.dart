@@ -69,15 +69,18 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
                   );*/
               },
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: size.width * 0.03),//0.025),
+                margin: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+                //0.025),
                 decoration: BoxDecoration(
-                  color: AppColors.APP_WHITE_COLOR,//LOGO_BACKGROUND_RED_COLOR,
+                  color: AppColors.APP_WHITE_COLOR, //LOGO_BACKGROUND_RED_COLOR,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 height: 24,
                 width: 24,
-                child: Icon(Icons.home, color: AppColors.LOGO_BACKGROUND_RED_COLOR,
-                //Colors.white
+                child: Icon(
+                  Icons.home,
+                  color: AppColors.LOGO_BACKGROUND_RED_COLOR,
+                  //Colors.white
                 ),
               ),
             ),
@@ -162,7 +165,7 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
               child: _buildProductContainer(size, index),
             ),
           ),
-          
+
           pw.SizedBox(height: 10),
           _buildFooter(size),
         ],
@@ -770,10 +773,29 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
     final details = widget.estimationResponseModel.data!.estimateDetails ?? [];
 
     double totalAmount = 0.00;
+    double totalDiscountAmount = 0.00;
+    double totalDiamondDiscountAmount = 0.00;
+    double totalDiscount = 0.00;
+    double totalTaxAmount = 0.00;
+    double totalTaxableAmount = 0.00;
+    double totalValueBeforeDiscount = 0.00;
     for (var i in details) {
       totalAmount +=
           double.tryParse(i.estimateProductDetails!.lineamount!) ?? 0.00;
+      totalTaxAmount +=
+          double.tryParse(i.estimateProductDetails!.taxamount!) ?? 0.00;
+      totalDiscountAmount +=
+          double.tryParse(i.estimateProductDetails!.disamount!) ?? 0.00;
+      totalDiamondDiscountAmount +=
+          double.tryParse(i.estimateProductDetails!.diamonddiscamount!) ?? 0.00;
     }
+    totalDiscount = totalDiscountAmount + totalDiamondDiscountAmount;
+    totalTaxableAmount = totalAmount - totalTaxAmount;
+    totalValueBeforeDiscount = totalTaxableAmount + totalDiscount;
+
+    debugPrint(
+      "totalAmount-->$totalAmount and totalDiscountAmount-->$totalDiscountAmount and totalDiamondDiscountAmount-->$totalDiamondDiscountAmount and totalDiscount-->$totalDiscount and totalTaxAmount-->$totalTaxAmount and totalValueBeforeDiscount-->$totalValueBeforeDiscount",
+    );
 
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -799,6 +821,117 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
           children: [
             pw.Expanded(
               child: pw.Text(
+                "Total Value",
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            pw.Expanded(
+              child: pw.Text(
+                details.isNotEmpty
+                    ? totalValueBeforeDiscount.toStringAsFixed(
+                        2,
+                      ) //details[0].estimateProductDetails?.lineamount ?? ''
+                    : "0.00",
+                textAlign: pw.TextAlign.right,
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        pw.SizedBox(height: 8),
+        pw.Row(
+          children: [
+            pw.Expanded(
+              child: pw.Text(
+                "Total Discount",
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            pw.Expanded(
+              child: pw.Text(
+                details.isNotEmpty
+                    ? totalDiscount.toStringAsFixed(
+                        2,
+                      ) //details[0].estimateProductDetails?.lineamount ?? ''
+                    : "0.00",
+                textAlign: pw.TextAlign.right,
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),pw.SizedBox(height: 8),
+        pw.Row(
+          children: [
+            pw.Expanded(
+              child: pw.Text(
+                "Total Taxable Amount",
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            pw.Expanded(
+              child: pw.Text(
+                details.isNotEmpty
+                    ? totalTaxableAmount.toStringAsFixed(
+                  2,
+                ) //details[0].estimateProductDetails?.lineamount ?? ''
+                    : "0.00",
+                textAlign: pw.TextAlign.right,
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        pw.SizedBox(height: 8),
+        pw.Row(
+          children: [
+            pw.Expanded(
+              child: pw.Text(
+                "Total Tax",
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            pw.Expanded(
+              child: pw.Text(
+                details.isNotEmpty
+                    ? totalTaxAmount.toStringAsFixed(
+                        2,
+                      ) //details[0].estimateProductDetails?.lineamount ?? ''
+                    : "0.00",
+                textAlign: pw.TextAlign.right,
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        pw.SizedBox(height: 8),
+        pw.Row(
+          children: [
+            pw.Expanded(
+              child: pw.Text(
                 "Total Amount",
                 style: pw.TextStyle(
                   fontSize: 20,
@@ -809,8 +942,9 @@ class _PdfviewScreenState extends State<PdfviewScreen> {
             pw.Expanded(
               child: pw.Text(
                 details.isNotEmpty
-                    ? totalAmount
-                          .toStringAsFixed(2) //details[0].estimateProductDetails?.lineamount ?? ''
+                    ? totalAmount.toStringAsFixed(
+                        2,
+                      ) //details[0].estimateProductDetails?.lineamount ?? ''
                     : "0.00",
                 textAlign: pw.TextAlign.right,
                 style: pw.TextStyle(

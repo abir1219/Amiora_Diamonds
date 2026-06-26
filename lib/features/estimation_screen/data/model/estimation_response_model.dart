@@ -861,7 +861,9 @@ class EstimateProductDetails {
   String? taxcode;
   String? taxamount;
   String? disper;
+  String? diamonddiscrate;
   String? disamount;
+  String? diamonddiscamount;
   String? lineamount;
   String? miscamount;
   String? purpose;
@@ -902,7 +904,9 @@ class EstimateProductDetails {
         this.taxcode,
         this.taxamount,
         this.disper,
+        this.diamonddiscrate,
         this.disamount,
+        this.diamonddiscamount,
         this.lineamount,
         this.miscamount,
         this.purpose,
@@ -942,7 +946,9 @@ class EstimateProductDetails {
     taxcode = json['taxcode'];
     taxamount = json['taxamount'];
     disper = json['disper'];
+    diamonddiscrate = json['diamonddiscrate'];
     disamount = json['disamount'];
+    diamonddiscamount = json['diamonddiscamount'];
     lineamount = json['lineamount'];
     miscamount = json['miscamount'];
     purpose = json['purpose'];
@@ -984,7 +990,9 @@ class EstimateProductDetails {
     data['taxcode'] = taxcode;
     data['taxamount'] = taxamount;
     data['disper'] = disper;
+    data['diamonddiscrate'] = diamonddiscrate;
     data['disamount'] = disamount;
+    data['diamonddiscamount'] = diamonddiscamount;
     data['lineamount'] = lineamount;
     data['miscamount'] = miscamount;
     data['purpose'] = purpose;
